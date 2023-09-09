@@ -1,0 +1,16 @@
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Proect_Tracker.Form1.resources
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.csproj.GenerateResource.cache
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.AssemblyInfoInputs.cache
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.AssemblyInfo.cs
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.csproj.CoreCompileInputs.cache
+C:\Users\Sampson\Project-Tracker\Proect Tracker\bin\Debug\net7.0-windows\Project Tracker.exe
+C:\Users\Sampson\Project-Tracker\Proect Tracker\bin\Debug\net7.0-windows\Project Tracker.deps.json
+C:\Users\Sampson\Project-Tracker\Proect Tracker\bin\Debug\net7.0-windows\Project Tracker.runtimeconfig.json
+C:\Users\Sampson\Project-Tracker\Proect Tracker\bin\Debug\net7.0-windows\Project Tracker.dll
+C:\Users\Sampson\Project-Tracker\Proect Tracker\bin\Debug\net7.0-windows\Project Tracker.pdb
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.dll
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\refint\Project Tracker.dll
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.pdb
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\Project Tracker.genruntimeconfig.cache
+C:\Users\Sampson\Project-Tracker\Proect Tracker\obj\Debug\net7.0-windows\ref\Project Tracker.dll
