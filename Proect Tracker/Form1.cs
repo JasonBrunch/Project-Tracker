@@ -35,7 +35,7 @@ namespace Proect_Tracker
             timer1.Tick += new EventHandler(this.timer1_Tick);  // Attach the tick event
             timer1.Interval = 1000; // Fires every 1 second (1000 ms)
 
-            
+
             SetUpProject(projectData);
             CreateCategories(projectData.categories);
 
@@ -287,6 +287,16 @@ namespace Proect_Tracker
             {
                 clickedTask.isSelected = true;
                 currentSelectedTask = clickedTask;
+
+
+                //update the tick timer for the new clicked task
+                //stop the previous timer
+                timer1.Stop();
+                tickCounter = 0;
+                //then call the update
+
+
+
                 UpdateTaskUI();
             }
 
@@ -316,6 +326,8 @@ namespace Proect_Tracker
                 taskNameLbl.Text = currentSelectedTask.Name;
                 timeSpntLbl.Text = $"{currentSelectedTask.ActualTimeSpent}.{tickCounter}";
                 checkBox1.Checked = currentSelectedTask.Status == TaskStatus.Completed;
+
+
             }
             else
             {
@@ -331,10 +343,17 @@ namespace Proect_Tracker
             int remainingHours = totalHoursAsInt - completedHours;
             remainingHrsLbl.Text = "Remaining: " + remainingHours.ToString();
 
-            //productivity
 
+            if (totalHoursAsInt == 0)
+            {
+                percentageLbl.Text = "N/A";  // handle divide by zero
+            }
+            else
+            {
+                int percentage = (int)Math.Round((double)(completedHours * 100) / totalHoursAsInt);
+                percentageLbl.Text = percentage + "%";
+            }
 
-            //get days since started
 
 
         }

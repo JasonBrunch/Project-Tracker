@@ -30,7 +30,7 @@
         {
             tasksPnl = new FlowLayoutPanel();
             panel3 = new Panel();
-            label5 = new Label();
+            percentageLbl = new Label();
             panel4 = new Panel();
             label6 = new Label();
             totalHrsLbl = new Label();
@@ -57,27 +57,27 @@
             // 
             tasksPnl.Location = new Point(34, 336);
             tasksPnl.Name = "tasksPnl";
-            tasksPnl.Size = new Size(949, 314);
+            tasksPnl.Size = new Size(980, 314);
             tasksPnl.TabIndex = 0;
             // 
             // panel3
             // 
-            panel3.Controls.Add(label5);
+            panel3.Controls.Add(percentageLbl);
             panel3.Controls.Add(panel4);
             panel3.Location = new Point(37, 12);
             panel3.Name = "panel3";
-            panel3.Size = new Size(963, 253);
+            panel3.Size = new Size(977, 253);
             panel3.TabIndex = 1;
             // 
-            // label5
+            // percentageLbl
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Showcard Gothic", 72F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.Location = new Point(532, 53);
-            label5.Name = "label5";
-            label5.Size = new Size(288, 149);
-            label5.TabIndex = 1;
-            label5.Text = "34%";
+            percentageLbl.AutoSize = true;
+            percentageLbl.Font = new Font("Showcard Gothic", 72F, FontStyle.Bold, GraphicsUnit.Point);
+            percentageLbl.Location = new Point(675, 0);
+            percentageLbl.Name = "percentageLbl";
+            percentageLbl.Size = new Size(288, 149);
+            percentageLbl.TabIndex = 1;
+            percentageLbl.Text = "34%";
             // 
             // panel4
             // 
@@ -164,7 +164,7 @@
             CategoryPnlHldr.Location = new Point(34, 271);
             CategoryPnlHldr.Margin = new Padding(0);
             CategoryPnlHldr.Name = "CategoryPnlHldr";
-            CategoryPnlHldr.Size = new Size(966, 59);
+            CategoryPnlHldr.Size = new Size(980, 59);
             CategoryPnlHldr.TabIndex = 5;
             CategoryPnlHldr.WrapContents = false;
             // 
@@ -276,7 +276,7 @@
         private Label titleText;
         private Label remainingHrsLbl;
         private Label totalHrsLbl;
-        private Label label5;
+        private Label percentageLbl;
         private Label label6;
         private Button startTimerBtn;
         private Button stopTimerBtn;
