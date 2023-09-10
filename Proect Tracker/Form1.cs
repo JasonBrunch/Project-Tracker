@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Common;
 
+
 namespace Proect_Tracker
 {
     public enum TaskStatus { NotStarted, Completed }
@@ -31,15 +32,20 @@ namespace Proect_Tracker
             projectData = new ProjectData();
             projectData.InitializeProjectData();
 
+            // Attempt to load saved data
+            List<Category> loadedData = SaveLoad.Load();
+            if (loadedData != null)
+            {
+                projectData.categories = loadedData;
+            }
+
+
             timer1 = new System.Windows.Forms.Timer();
             timer1.Tick += new EventHandler(this.timer1_Tick);  // Attach the tick event
             timer1.Interval = 1000; // Fires every 1 second (1000 ms)
 
-
             SetUpProject(projectData);
             CreateCategories(projectData.categories);
-
-
         }
         private void SetUpProject(ProjectData projectData)
         {
@@ -427,11 +433,16 @@ namespace Proect_Tracker
             }
             return minutes / 60;
         }
+
+        private void saveBtn_Click(object sender, EventArgs e)
+        {
+            //SaveLoad.Save(projectData);
+            SaveLoad.SaveTest(projectData.categories);
+        }
+
+
+
     }
-
-
-
-
 
 
 }

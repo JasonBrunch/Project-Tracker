@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proect_Tracker
 {
+    [Serializable]
     public class Category
     {
         public string Name { get; set; }
@@ -15,6 +16,7 @@ namespace Proect_Tracker
         public bool isSelected;
 
     }
+    [Serializable]
     public class Task
     {
         public string Name { get; set; }

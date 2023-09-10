@@ -47,6 +47,7 @@
             checkBox1 = new CheckBox();
             panel2 = new Panel();
             completedHrsLbl = new Label();
+            saveBtn = new Button();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(saveBtn);
             panel3.Controls.Add(percentageLbl);
             panel3.Controls.Add(panel4);
             panel3.Location = new Point(37, 12);
@@ -73,7 +75,7 @@
             // 
             percentageLbl.AutoSize = true;
             percentageLbl.Font = new Font("Showcard Gothic", 72F, FontStyle.Bold, GraphicsUnit.Point);
-            percentageLbl.Location = new Point(675, 0);
+            percentageLbl.Location = new Point(689, 91);
             percentageLbl.Name = "percentageLbl";
             percentageLbl.Size = new Size(288, 149);
             percentageLbl.TabIndex = 1;
@@ -244,6 +246,16 @@
             completedHrsLbl.TabIndex = 12;
             completedHrsLbl.Text = "Completed: 20";
             // 
+            // saveBtn
+            // 
+            saveBtn.Location = new Point(880, 3);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(94, 29);
+            saveBtn.TabIndex = 2;
+            saveBtn.Text = "Save";
+            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Click += saveBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -289,5 +301,6 @@
         private Panel panel2;
         private Label completedHrsLbl;
         private CheckBox checkBox1;
+        private Button saveBtn;
     }
 }

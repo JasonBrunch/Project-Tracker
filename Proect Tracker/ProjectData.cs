@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Proect_Tracker
 {
-    internal class ProjectData
+    [Serializable]
+    public class ProjectData
     {
         public List<Category> categories = new List<Category>();
 
