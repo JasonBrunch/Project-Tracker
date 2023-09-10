@@ -1,7 +1,15 @@
 using System.Diagnostics;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Diagnostics.Metrics;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.Common;
 
 namespace Proect_Tracker
 {
+    public enum TaskStatus { NotStarted, Completed }
     public partial class Form1 : Form
     {
         private readonly Color colorBackground = Color.FromArgb(240, 240, 240);
@@ -13,24 +21,30 @@ namespace Proect_Tracker
         private int tickCounter = 0;
         System.Windows.Forms.Timer timer1;
 
+        ProjectData projectData;
+        float completedHours = 0;
+        float totalHours = 0;
 
         public Form1()
         {
             InitializeComponent();
-            ProjectData projectData = new ProjectData();
+            projectData = new ProjectData();
             projectData.InitializeProjectData();
 
             timer1 = new System.Windows.Forms.Timer();
             timer1.Tick += new EventHandler(this.timer1_Tick);  // Attach the tick event
             timer1.Interval = 1000; // Fires every 1 second (1000 ms)
 
-
-            CreateCategories(projectData.categories);
+            
             SetUpProject(projectData);
+            CreateCategories(projectData.categories);
+
+
         }
         private void SetUpProject(ProjectData projectData)
         {
-            totalHrsLbl.Text = "Estimated Hours: " + GetTotalHours(projectData.categories).ToString();
+            totalHours = GetTotalHours(projectData.categories);
+            totalHrsLbl.Text = "Estimated Hours: " + totalHours.ToString();
         }
         private float GetTotalHours(List<Category> categories)
         {
@@ -45,10 +59,7 @@ namespace Proect_Tracker
                 }
                 totalHours += totalCategoryMinutes;
             }
-
             return totalHours / 60;
-
-
         }
         private void CreateCategories(List<Category> categories)
         {
@@ -66,7 +77,6 @@ namespace Proect_Tracker
                     thisPanelWidth++;
                     remainingWidth--;
                 }
-
                 // Create Panel
                 Panel panel = new Panel
                 {
@@ -75,12 +85,9 @@ namespace Proect_Tracker
                     BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle,
                     Tag = category  // Save category object in panel's Tag for later retrieval
                 };
-
-                // Set the color right here
                 SetPanelColor(panel, category.Status, category.isSelected);
 
-                panel.Click += new EventHandler(CategoryPanel_Click);  // Attach Click event
-
+                panel.Click += new EventHandler(CategoryPanel_Click);
                 // Create Label
                 Label label = new Label
                 {
@@ -90,19 +97,35 @@ namespace Proect_Tracker
                     AutoSize = false
                 };
 
-                label.Click += new EventHandler(CategoryPanel_Click);  // Attach Click event to the label too
-
-
+                label.Click += new EventHandler(CategoryPanel_Click);
                 // Add Label to Panel
                 panel.Controls.Add(label);
-
                 // Add Panel to FlowLayoutPanel
                 CategoryPnlHldr.Controls.Add(panel);
             }
+            // Initial creation of categories - set current task to most current category
+            Category initialCategory = MostRecentCategory();
+            if (initialCategory != null)
+            {
+                initialCategory.isSelected = true;
+                CreateTaskList(initialCategory); // Simulate a click by manually calling the method
+            }
         }
+        private Category MostRecentCategory()
+        {
+            foreach (Category category in projectData.categories)
+            {
+                if (category.Status == TaskStatus.NotStarted)
+                {
+                    return category;
+                }
+            }
+            return null; // Return null if no category is found with the status NotStarted
+        }
+        //CHECK IF CATEGORY IS COMPLETE AND MARK IT SO SOMEWHERE
         private void CategoryPanel_Click(object sender, EventArgs e)
         {
-            Debug.WriteLine("Click");
+
 
             Category clickedCategory = null;
 
@@ -148,7 +171,7 @@ namespace Proect_Tracker
             ClearAndDisposePanels(tasksPnl);
             tasksPnl.Controls.Clear();
             int totalWidth = tasksPnl.Width;
-            int panelWidth = totalWidth / 3;  // Fixed width for 3-column layout
+            int panelWidth = (totalWidth / 3) - 10;  // Fixed width for 3-column layout
             int panelHeight = 100;  // Fixed height for simplicity, adjust as needed
 
             // Set FlowLayoutPanel properties for task panel
@@ -177,15 +200,31 @@ namespace Proect_Tracker
                 label.Click += new EventHandler(TaskPanel_Click);
                 // Set Panel color and tag
                 panel.Tag = task; // Save task object in panel's Tag for later retrieval
-                SetPanelColor(panel, task.Status, task.isSelected);
-                panel.Click += new EventHandler(TaskPanel_Click); // Attach click event
-
+                panel.Click += new EventHandler(TaskPanel_Click);
                 // Add Label to Panel
                 panel.Controls.Add(label);
-
                 // Add Panel to FlowLayoutPanel
                 tasksPnl.Controls.Add(panel);
             }
+            Task mostRecentTask = MostRecentTask(category.Tasks);
+            if (mostRecentTask != null)
+            {
+                mostRecentTask.isSelected = true;
+                currentSelectedTask = mostRecentTask;
+            }
+            UpdateTaskUI();
+
+        }
+        private Task MostRecentTask(List<Task> tasks)
+        {
+            foreach (Task task in tasks)
+            {
+                if (task.Status == TaskStatus.NotStarted)
+                {
+                    return task;
+                }
+            }
+            return null; // Return null if no task is found with the status NotStarted
         }
         private void SetPanelColor(Panel panel, TaskStatus status, bool isSelected)
         {
@@ -202,9 +241,6 @@ namespace Proect_Tracker
                     break;
                 case TaskStatus.Completed:
                     panel.BackColor = colorButtonCompleted;
-                    break;
-                case TaskStatus.InProgress:
-                    // Add color here if you want
                     break;
             }
         }
@@ -251,7 +287,7 @@ namespace Proect_Tracker
             {
                 clickedTask.isSelected = true;
                 currentSelectedTask = clickedTask;
-                UpdateTaskWindow(currentSelectedTask);
+                UpdateTaskUI();
             }
 
             // Step 3: Refresh colors for all panels
@@ -263,12 +299,44 @@ namespace Proect_Tracker
                 }
             }
         }
-        private void UpdateTaskWindow(Task currentTask)
+        //UPDATE ALL THE TASKS AND THE CURRENT ONE
+        private void UpdateTaskUI()
         {
+            // Update the background color of all task panels
+            foreach (Control control in tasksPnl.Controls)
+            {
+                if (control is Panel panel && panel.Tag is Task task)
+                {
+                    SetPanelColor(panel, task.Status, task.isSelected);
+                }
+            }
+            if (currentSelectedTask != null)
+            {
+                // Update the labels and checkbox for the currently selected task
+                taskNameLbl.Text = currentSelectedTask.Name;
+                timeSpntLbl.Text = $"{currentSelectedTask.ActualTimeSpent}.{tickCounter}";
+                checkBox1.Checked = currentSelectedTask.Status == TaskStatus.Completed;
+            }
+            else
+            {
+                // Handle the case where no task is currently selected
+                taskNameLbl.Text = "No task selected";
+                timeSpntLbl.Text = "0.0";
+                checkBox1.Checked = false;
+            }
+            //Update the bottom trackers
+            int completedHours = GetCompletedHours();
+            completedHrsLbl.Text = "Completed: " + completedHours;
+            int totalHoursAsInt = Convert.ToInt32(totalHours);
+            int remainingHours = totalHoursAsInt - completedHours;
+            remainingHrsLbl.Text = "Remaining: " + remainingHours.ToString();
 
-            taskNameLbl.Text = currentTask.Name;
+            //productivity
 
-            timeSpntLbl.Text = $"{currentTask.ActualTimeSpent}.{tickCounter}";
+
+            //get days since started
+
+
         }
 
         private void startTimerBtn_Click(object sender, EventArgs e)
@@ -277,23 +345,19 @@ namespace Proect_Tracker
             timer1.Start();
             //update actual timespent with each tick?
         }
-
         private void stopTimerBtn_Click(object sender, EventArgs e)
         {
             timer1.Stop();
         }
-
         private void resetTimerBtn_Click(object sender, EventArgs e)
         {
             if (currentSelectedTask != null)
             {
                 currentSelectedTask.ActualTimeSpent = 0;
             }
-
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("TICK");
             tickCounter++;
 
             if (tickCounter >= 60) // 60 seconds in a minute
@@ -308,30 +372,48 @@ namespace Proect_Tracker
 
             if (currentSelectedTask != null)
             {
-                UpdateTaskWindow(currentSelectedTask);
+                UpdateTaskUI();
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (currentSelectedTask != null)
+            {
+                CheckBox checkBox = sender as CheckBox;
+                if (checkBox.Checked)
+                {
+                    currentSelectedTask.Status = TaskStatus.Completed;
+                }
+                else
+                {
+                    currentSelectedTask.Status = TaskStatus.NotStarted;
+                }
+                UpdateTaskUI();
+            }
+        }
+        private int GetCompletedHours()
+        {
+            int minutes = 0;
+            foreach (Category category in projectData.categories)
+            {
+                for (int i = 0; i < category.Tasks.Count; i++)
+                {
+                    if (category.Tasks[i].Status == TaskStatus.Completed)
+                    {
+                        minutes += category.Tasks[i].EstimatedTime;
+                    }
+                }
+
+            }
+            return minutes / 60;
         }
     }
 
-    public enum TaskStatus { NotStarted, InProgress, Completed }
 
-    public class Category
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public List<Task> Tasks { get; set; }
-        public TaskStatus Status { get; set; }
-        public bool isSelected;
 
-    }
 
-    public class Task
-    {
-        public string Name { get; set; }
-        public int EstimatedTime { get; set; } // in minutes
-        public int ActualTimeSpent { get; set; } // in minutes
-        public TaskStatus Status { get; set; }
-        public bool isSelected;
-    }
+
+
 }
 

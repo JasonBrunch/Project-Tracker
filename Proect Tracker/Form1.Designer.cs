@@ -38,16 +38,15 @@
             resetTimerBtn = new Button();
             stopTimerBtn = new Button();
             startTimerBtn = new Button();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
+            remainingHrsLbl = new Label();
             CategoryPnlHldr = new FlowLayoutPanel();
             taskNameLbl = new Label();
             label8 = new Label();
             timeSpntLbl = new Label();
             panel1 = new Panel();
+            checkBox1 = new CheckBox();
             panel2 = new Panel();
-            label10 = new Label();
+            completedHrsLbl = new Label();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             panel1.SuspendLayout();
@@ -150,35 +149,15 @@
             startTimerBtn.UseVisualStyleBackColor = true;
             startTimerBtn.Click += startTimerBtn_Click;
             // 
-            // label2
+            // remainingHrsLbl
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(265, 885);
-            label2.Name = "label2";
-            label2.Size = new Size(158, 31);
-            label2.TabIndex = 2;
-            label2.Text = "Remaining: 69";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(493, 885);
-            label3.Name = "label3";
-            label3.Size = new Size(236, 31);
-            label3.TabIndex = 3;
-            label3.Text = "Productivity: 3hrs/day";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(759, 885);
-            label4.Name = "label4";
-            label4.Size = new Size(255, 31);
-            label4.TabIndex = 4;
-            label4.Text = "Projected Finish: Sep 21";
+            remainingHrsLbl.AutoSize = true;
+            remainingHrsLbl.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            remainingHrsLbl.Location = new Point(265, 885);
+            remainingHrsLbl.Name = "remainingHrsLbl";
+            remainingHrsLbl.Size = new Size(158, 31);
+            remainingHrsLbl.TabIndex = 2;
+            remainingHrsLbl.Text = "Remaining: 69";
             // 
             // CategoryPnlHldr
             // 
@@ -221,6 +200,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(label8);
             panel1.Controls.Add(timeSpntLbl);
             panel1.Controls.Add(startTimerBtn);
@@ -230,6 +210,19 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(633, 206);
             panel1.TabIndex = 10;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point);
+            checkBox1.Location = new Point(445, 161);
+            checkBox1.Name = "checkBox1";
+            checkBox1.RightToLeft = RightToLeft.Yes;
+            checkBox1.Size = new Size(174, 42);
+            checkBox1.TabIndex = 10;
+            checkBox1.Text = "Completed";
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // panel2
             // 
@@ -241,29 +234,27 @@
             panel2.Size = new Size(980, 226);
             panel2.TabIndex = 11;
             // 
-            // label10
+            // completedHrsLbl
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label10.Location = new Point(51, 885);
-            label10.Name = "label10";
-            label10.Size = new Size(162, 31);
-            label10.TabIndex = 12;
-            label10.Text = "Completed: 20";
+            completedHrsLbl.AutoSize = true;
+            completedHrsLbl.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            completedHrsLbl.Location = new Point(51, 885);
+            completedHrsLbl.Name = "completedHrsLbl";
+            completedHrsLbl.Size = new Size(162, 31);
+            completedHrsLbl.TabIndex = 12;
+            completedHrsLbl.Text = "Completed: 20";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1051, 925);
-            Controls.Add(label10);
+            Controls.Add(completedHrsLbl);
             Controls.Add(panel2);
             Controls.Add(CategoryPnlHldr);
-            Controls.Add(label4);
             Controls.Add(panel3);
             Controls.Add(tasksPnl);
-            Controls.Add(label3);
-            Controls.Add(label2);
+            Controls.Add(remainingHrsLbl);
             Name = "Form1";
             Text = "Form1";
             panel3.ResumeLayout(false);
@@ -283,10 +274,8 @@
         private Panel panel3;
         private Panel panel4;
         private Label titleText;
-        private Label label2;
+        private Label remainingHrsLbl;
         private Label totalHrsLbl;
-        private Label label3;
-        private Label label4;
         private Label label5;
         private Label label6;
         private Button startTimerBtn;
@@ -298,6 +287,7 @@
         private Label timeSpntLbl;
         private Panel panel1;
         private Panel panel2;
-        private Label label10;
+        private Label completedHrsLbl;
+        private CheckBox checkBox1;
     }
 }
